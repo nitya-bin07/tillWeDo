@@ -1,0 +1,29 @@
+﻿# Secrets (NEVER commit)
+.env
+.env.local
+backend/.env
+frontend/.env
+*.xlsx
+
+# Private docs
+DEVELOPER_GUIDE.md
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Logs
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build helpers (local only)
+create-models.ps1

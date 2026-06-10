@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* TillWeDo brand tokens — Tailwind v4 reads @theme to generate utilities
+   like bg-brand, text-brand, border-brand-dark, etc. */
+@theme {
+  --color-brand: #e0457b;
+  --color-brand-dark: #c63568;
+  --color-brand-light: #fce7ef;
+  --color-ink: #1a1a1a;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #fafafa;
+  color: var(--color-ink);
+}
