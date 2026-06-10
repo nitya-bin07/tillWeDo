@@ -9,7 +9,15 @@ import {
   Shield,
   FileCheck,
   Database,
+  User,
+  HeartCrack,
+  Shield,
+  FileCheck,
+  Database,
 } from 'lucide-react';
+
+
+
 import { useAuth } from '../../hooks/useAuth';
 
 const linkClass = ({ isActive }) =>
@@ -39,6 +47,19 @@ export default function Sidebar() {
       </NavLink>
       <NavLink to="/profile" className={linkClass}>
         <User size={18} /> Profile
+      </NavLink>
+      <NavLink to="/profile" className={linkClass}>
+        <User size={18} /> Profile
+      </NavLink>
+      <NavLink
+        to="/breakup/confirm"
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+            isActive ? 'bg-red-50 font-medium text-red-600' : 'text-gray-500 hover:bg-red-50 hover:text-red-600'
+          }`
+        }
+      >
+        <HeartCrack size={18} /> Breakup
       </NavLink>
 
       {isAdmin && (
