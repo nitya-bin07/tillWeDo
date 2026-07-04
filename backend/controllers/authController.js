@@ -35,7 +35,10 @@ const register = async (req, res, next) => {
       isVerified: false,
     });
 
-    await emailService.sendVerificationEmail(user, otp);
+    // Fire-and-forget: don't block the response on email delivery.
+    emailService.sendVerificationEmail(user, otp).catch((err) => {
+      console.error(`[register] verification email failed for ${user.email}:`, err.message);
+    });
 
     const token = signToken(user._id);
     return sendSuccess(res, {
@@ -123,7 +126,10 @@ const forgotPassword = async (req, res, next) => {
       user.resetPasswordToken = token;
       user.resetPasswordExpiry = new Date(Date.now() + 60 * 60 * 1000);
       await user.save();
-      await emailService.sendPasswordResetEmail(user, token);
+      // Fire-and-forget: don't block the response on email delivery.
+      emailService.sendPasswordResetEmail(user, token).catch((err) => {
+        console.error(`[forgotPassword] reset email failed for ${user.email}:`, err.message);
+      });
     }
 
     return sendSuccess(res, { message: 'If that email is registered, a reset link has been sent.' });

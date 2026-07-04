@@ -1,8 +1,19 @@
 const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const isDev = (process.env.NODE_ENV || 'development') === 'development';
 const FROM = process.env.EMAIL_FROM || 'TillWeDo <no-reply@tillwedo.app>';
 
+// ---- Resend (HTTP API — works from Railway/cloud hosts, SMTP ports don't matter) ----
+const hasResend = Boolean(process.env.RESEND_API_KEY);
+let resendClient = null;
+const getResend = () => {
+  if (!hasResend) return null;
+  if (!resendClient) resendClient = new Resend(process.env.RESEND_API_KEY);
+  return resendClient;
+};
+
+// ---- SMTP fallback (kept for local dev / non-Railway hosts; NOT used if RESEND_API_KEY is set) ----
 const hasSmtp = Boolean(
   process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS
 );
@@ -15,30 +26,54 @@ const getTransporter = () => {
     port: Number(process.env.EMAIL_PORT) || 587,
     secure: String(process.env.EMAIL_SECURE) === 'true' || Number(process.env.EMAIL_PORT) === 465,
     auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    connectionTimeout: 5000, // fail fast instead of hanging ~2 min on blocked ports
+    greetingTimeout: 5000,
+    socketTimeout: 5000,
   });
   return transporter;
 };
 
 const verifyTransport = async () => {
+  if (hasResend) return { ok: true, provider: 'resend' };
   const tx = getTransporter();
-  if (!tx) return { ok: false, reason: 'no-smtp-config' };
-  try { await tx.verify(); return { ok: true }; }
+  if (!tx) return { ok: false, reason: 'no-email-provider-configured' };
+  try { await tx.verify(); return { ok: true, provider: 'smtp' }; }
   catch (err) { return { ok: false, reason: err.message }; }
 };
 
 const send = async ({ to, subject, text, html }) => {
-  const tx = getTransporter();
+  // 1. Prefer Resend (HTTP API — not blocked on cloud hosts like Railway)
+  const resend = getResend();
+  if (resend) {
+    try {
+      const { data, error } = await resend.emails.send({
+        from: FROM,
+        to,
+        subject,
+        text,
+        html: html || undefined,
+      });
+      if (error) throw new Error(error.message || 'Resend API error');
+      return { sent: true, id: data?.id };
+    } catch (err) {
+      console.error(`[emailService] Resend send failed to ${to}: ${err.message}`);
+      return { sent: false, error: err.message };
+    }
+  }
 
+  // 2. Fall back to SMTP (works locally; will time out fast on Railway if misconfigured)
+  const tx = getTransporter();
   if (tx) {
     try {
       const info = await tx.sendMail({ from: FROM, to, subject, text, html: html || undefined });
       return { sent: true, id: info.messageId };
     } catch (err) {
-      console.error(`[emailService] send failed to ${to}: ${err.message}`);
+      console.error(`[emailService] SMTP send failed to ${to}: ${err.message}`);
       return { sent: false, error: err.message };
     }
   }
 
+  // 3. Dev fallback: print to console
   if (isDev) {
     console.log('\n📧 [emailService:dev] -------------------------------');
     console.log(`   to:      ${to}`);
@@ -48,7 +83,7 @@ const send = async ({ to, subject, text, html }) => {
     return { mocked: true };
   }
 
-  console.warn(`[emailService] No SMTP transport configured; email to ${to} was not sent.`);
+  console.warn(`[emailService] No email provider configured; email to ${to} was not sent.`);
   return { mocked: true };
 };
 
