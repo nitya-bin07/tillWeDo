@@ -8,6 +8,15 @@ Built on the **MERN** stack (MongoDB · Express · React · Node).
 
 ---
 
+## 🌐 Live Demo
+
+- **Frontend:** [till-we-do.vercel.app](https://till-we-do.vercel.app)
+- **Backend API:** [tillwedo-production.up.railway.app](https://tillwedo-production.up.railway.app)
+
+> ⚠️ This is a work-in-progress deployment. Payments (Razorpay) and file uploads (Cloudinary) are not yet configured in production — those routes will return errors/mock data until live keys are added. Email verification currently only delivers to the developer's own inbox (Resend sandbox mode, pending domain verification).
+
+---
+
 ## ✨ Features
 
 - **Couple accounts** — invite a partner with a code; link into a shared account.
@@ -43,7 +52,7 @@ Built on the **MERN** stack (MongoDB · Express · React · Node).
 **Integrations**
 - Razorpay (payments)
 - Cloudinary (file/image storage)
-- Nodemailer (transactional email)
+- Resend (transactional email, HTTP API — falls back to Nodemailer/SMTP, then console logging in dev)
 
 ---
 
@@ -52,7 +61,7 @@ Built on the **MERN** stack (MongoDB · Express · React · Node).
 ### Prerequisites
 - **Node.js** 18+ and npm
 - A **MongoDB Atlas** cluster (free tier works) — or a local MongoDB
-- (Optional) Razorpay test keys, a Cloudinary account, and SMTP credentials — the app runs without them in development via built-in fallbacks.
+- (Optional) Razorpay test keys, a Cloudinary account, and a Resend API key — the app runs without them in development via built-in fallbacks.
 
 ### 1. Clone
 
@@ -107,9 +116,13 @@ Open **http://localhost:5173**.
 | `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` | no | Razorpay test/live keys |
 | `RAZORPAY_WEBHOOK_SECRET` | no | Secret for verifying Razorpay webhooks |
 | `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | no | Cloudinary credentials |
-| `EMAIL_HOST` / `EMAIL_PORT` / `EMAIL_USER` / `EMAIL_PASS` / `EMAIL_FROM` | no | SMTP settings for email |
+| `RESEND_API_KEY` | no | [Resend](https://resend.com) API key — preferred email provider. Sends over HTTPS, so it works on hosts (Railway, Render, etc.) that block outbound SMTP ports. |
+| `EMAIL_FROM` | no | Sender address, e.g. `TillWeDo <no-reply@yourdomain.com>`. Without a Resend-verified domain, use Resend's sandbox sender `onboarding@resend.dev` (only delivers to the email the Resend account was created with). |
+| `EMAIL_HOST` / `EMAIL_PORT` / `EMAIL_SECURE` / `EMAIL_USER` / `EMAIL_PASS` | no | SMTP fallback (Nodemailer), only used if `RESEND_API_KEY` is not set. Note: many cloud hosts block outbound SMTP ports — this generally only works for local development. |
 
-> Without the optional keys, the app uses safe fallbacks: emails and OTPs print to the server console, and file uploads return mock URLs — so you can develop end-to-end with just `MONGO_URI` and `JWT_SECRET`.
+> Without any email provider configured, the app falls back to logging emails/OTPs to the server console — so you can develop end-to-end with just `MONGO_URI` and `JWT_SECRET`. Email sending never blocks a request/response; failures are logged and the request still completes.
+
+> **Note:** accounts must complete OTP email verification (`isVerified: true`) before they can log in — `POST /auth/login` rejects unverified accounts with a `403 EMAIL_NOT_VERIFIED` error.
 
 ### `frontend/.env`
 
@@ -165,4 +178,4 @@ This project is released under the MIT License. See `LICENSE` for details.
 
 ## 🙏 Acknowledgements
 
-Built with care on the MERN stack. Payments by Razorpay, media by Cloudinary, email by Nodemailer.
+Built with care on the MERN stack. Payments by Razorpay, media by Cloudinary, email by Resend.
