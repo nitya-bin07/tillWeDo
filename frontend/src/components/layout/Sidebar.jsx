@@ -9,12 +9,8 @@ import {
   Shield,
   FileCheck,
   Database,
-  User,
-  HeartCrack,
-  Shield,
-  FileCheck,
-  Database,
-} from 'lucide-react';
+  HeartCrack
+} from "lucide-react";
 
 
 
@@ -44,9 +40,6 @@ export default function Sidebar() {
       </NavLink>
       <NavLink to="/marriage/status" className={linkClass}>
         <Heart size={18} /> Marriage
-      </NavLink>
-      <NavLink to="/profile" className={linkClass}>
-        <User size={18} /> Profile
       </NavLink>
       <NavLink to="/profile" className={linkClass}>
         <User size={18} /> Profile
