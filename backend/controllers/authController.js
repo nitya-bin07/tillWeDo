@@ -64,6 +64,10 @@ const login = async (req, res, next) => {
       throw new ApiError(401, 'Invalid credentials', 'INVALID_CREDENTIALS');
     }
 
+    if (!user.isVerified) {
+      throw new ApiError(403, 'Please verify your email before logging in', 'EMAIL_NOT_VERIFIED');
+    }
+
     const token = signToken(user._id);
     return sendSuccess(res, { message: 'Logged in', data: { token, user } });
   } catch (err) {
