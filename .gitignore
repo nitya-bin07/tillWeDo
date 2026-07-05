@@ -27,3 +27,5 @@ Thumbs.db
 
 # Build helpers (local only)
 create-models.ps1
+
+.zip
