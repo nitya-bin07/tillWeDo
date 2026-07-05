@@ -1,13 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-line px-6 py-8 text-center">
-      <p className="font-display text-sm text-ink-soft">
-        <span className="text-rosewood">Till</span>
-        <span className="text-forest">We</span>
-        <span className="text-ink">Do</span>
+    <footer className="border-t border-line px-8 py-10 text-center">
+      <p className="font-display text-base italic text-ink">
+        TillWeDo<span className="text-accent">.</span>
       </p>
-      <p className="mt-1 text-xs text-ink-soft/70">
-        Save Together. Stay Together. © {new Date().getFullYear()}
+      <p className="mt-1.5 text-xs text-ink-faint">
+        Save together. Stay together. © {new Date().getFullYear()}
       </p>
     </footer>
   );

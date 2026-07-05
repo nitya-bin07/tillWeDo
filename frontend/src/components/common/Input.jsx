@@ -5,15 +5,15 @@ const Input = forwardRef(function Input({ label, error, className = '', id, ...p
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={inputId} className="mb-1.5 block text-sm font-medium text-ink-soft">
+        <label htmlFor={inputId} className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-ink-faint">
           {label}
         </label>
       )}
       <input
         id={inputId}
         ref={ref}
-        className={`w-full rounded-md border bg-paper-raised px-3.5 py-2.5 font-sans text-ink outline-none transition-colors placeholder:text-ink-soft/50 focus:ring-2 focus:ring-brand/25 ${
-          error ? 'border-danger' : 'border-line focus:border-brand'
+        className={`w-full rounded-sm border bg-paper-raised px-3.5 py-2.5 font-sans text-ink outline-none transition-colors placeholder:text-ink-faint/70 focus:ring-1 focus:ring-accent/40 ${
+          error ? 'border-danger' : 'border-line focus:border-accent'
         } ${className}`}
         {...props}
       />

@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import Card from '../components/common/Card';
 
 export default function Register() {
   const { register } = useAuth();
@@ -38,63 +37,51 @@ export default function Register() {
   };
 
   return (
-    <div className="grid min-h-screen place-items-center px-4 py-10">
-      <div className="w-full max-w-md">
-        <Link
-          to="/"
-          className="mb-8 flex items-center justify-center gap-2 font-display text-xl font-semibold text-ink"
-        >
-          <span className="text-rosewood">Till</span>
-          <span className="text-forest">We</span>
-          <span className="text-ink">Do</span>
+    <div className="grid min-h-screen place-items-center px-6 py-16">
+      <div className="w-full max-w-sm">
+        <Link to="/" className="mb-12 block text-center font-display text-2xl italic text-ink">
+          TillWeDo<span className="text-accent">.</span>
         </Link>
 
-        <Card>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#8a6d16]">
-            Entry No. 01
-          </p>
-          <h1 className="mb-1 font-display text-3xl font-semibold text-ink">Open your account</h1>
-          <p className="mb-7 text-sm text-ink-soft">
-            The first entry in a savings story you'll write together.
-          </p>
+        <h1 className="mb-2 font-display text-3xl font-normal text-ink">Open an account</h1>
+        <p className="mb-10 text-sm text-ink-soft">Start a savings history you'll write together.</p>
 
-          {error && (
-            <div className="mb-5 rounded-md border border-danger/20 bg-danger-light px-3.5 py-2.5 text-sm text-danger">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="mb-6 border-l-2 border-danger bg-danger-light px-4 py-3 text-sm text-danger">
+            {error}
+          </div>
+        )}
 
-          <form onSubmit={submit} className="space-y-4">
-            <Input label="Full name" name="name" value={form.name} onChange={update} required />
-            <Input label="Email" name="email" type="email" value={form.email} onChange={update} required />
-            <Input
-              label="Phone"
-              name="phone"
-              value={form.phone}
-              onChange={update}
-              placeholder="9876543210"
-              required
-            />
-            <Input
-              label="Password"
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={update}
-              placeholder="At least 8 characters"
-              required
-            />
-            <Input label="Date of birth" name="dob" type="date" value={form.dob} onChange={update} required />
-            <Input label="Location (optional)" name="location" value={form.location} onChange={update} />
-            <Button type="submit" className="w-full" size="lg" loading={loading}>
-              Create account
-            </Button>
-          </form>
-        </Card>
+        <form onSubmit={submit} className="space-y-5">
+          <Input label="Full name" name="name" value={form.name} onChange={update} required />
+          <Input label="Email" name="email" type="email" value={form.email} onChange={update} required />
+          <Input
+            label="Phone"
+            name="phone"
+            value={form.phone}
+            onChange={update}
+            placeholder="9876543210"
+            required
+          />
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={update}
+            placeholder="At least 8 characters"
+            required
+          />
+          <Input label="Date of birth" name="dob" type="date" value={form.dob} onChange={update} required />
+          <Input label="Location (optional)" name="location" value={form.location} onChange={update} />
+          <Button type="submit" className="w-full" size="lg" loading={loading}>
+            Create account
+          </Button>
+        </form>
 
-        <p className="mt-6 text-center text-sm text-ink-soft">
+        <p className="mt-10 text-center text-sm text-ink-soft">
           Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-rosewood hover:text-brand-dark">
+          <Link to="/login" className="text-ink underline underline-offset-4">
             Log in
           </Link>
         </p>

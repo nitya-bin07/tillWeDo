@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { MailCheck } from 'lucide-react';
 import * as authApi from '../api/auth';
 import { useAuth } from '../hooks/useAuth';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import Card from '../components/common/Card';
 
 export default function VerifyEmail() {
   const { user, refreshUser } = useAuth();
@@ -34,67 +32,53 @@ export default function VerifyEmail() {
   };
 
   return (
-    <div className="grid min-h-screen place-items-center px-4 py-10">
-      <div className="w-full max-w-md">
-        <Link
-          to="/"
-          className="mb-8 flex items-center justify-center gap-2 font-display text-xl font-semibold text-ink"
-        >
-          <span className="text-rosewood">Till</span>
-          <span className="text-forest">We</span>
-          <span className="text-ink">Do</span>
+    <div className="grid min-h-screen place-items-center px-6 py-16 text-center">
+      <div className="w-full max-w-sm">
+        <Link to="/" className="mb-12 block text-center font-display text-2xl italic text-ink">
+          TillWeDo<span className="text-accent">.</span>
         </Link>
 
-        <Card className="text-center">
-          <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-gold-light text-[#8a6d16]">
-            <MailCheck size={26} />
+        <h1 className="mb-2 font-display text-3xl font-normal text-ink">Verify your email</h1>
+        <p className="mb-10 text-sm text-ink-soft">
+          We sent a 6-digit code to <span className="text-ink">{email || 'your email'}</span>. In
+          development it also prints in your backend terminal.
+        </p>
+
+        {error && (
+          <div className="mb-6 border-l-2 border-danger bg-danger-light px-4 py-3 text-left text-sm text-danger">
+            {error}
           </div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#8a6d16]">
-            One more step
-          </p>
-          <h1 className="mb-1 font-display text-3xl font-semibold text-ink">Verify your email</h1>
-          <p className="mb-7 text-sm text-ink-soft">
-            We sent a 6-digit code to{' '}
-            <span className="font-medium text-ink">{email || 'your email'}</span>. In development
-            it also prints in your backend terminal.
-          </p>
+        )}
 
-          {error && (
-            <div className="mb-5 rounded-md border border-danger/20 bg-danger-light px-3.5 py-2.5 text-left text-sm text-danger">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={submit} className="space-y-4 text-left">
-            {!presetEmail && (
-              <Input
-                label="Email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            )}
+        <form onSubmit={submit} className="space-y-5 text-left">
+          {!presetEmail && (
             <Input
-              label="6-digit code"
-              name="otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              placeholder="123456"
-              inputMode="numeric"
-              className="text-center font-mono text-lg tracking-[0.5em]"
+              label="Email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <Button type="submit" className="w-full" size="lg" loading={loading} disabled={otp.length !== 6}>
-              Verify
-            </Button>
-          </form>
-        </Card>
+          )}
+          <Input
+            label="6-digit code"
+            name="otp"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            placeholder="123456"
+            inputMode="numeric"
+            className="text-center font-mono text-lg tracking-[0.5em]"
+            required
+          />
+          <Button type="submit" className="w-full" size="lg" loading={loading} disabled={otp.length !== 6}>
+            Verify
+          </Button>
+        </form>
 
-        <p className="mt-6 text-center text-sm text-ink-soft">
+        <p className="mt-10 text-center text-sm text-ink-soft">
           Wrong email?{' '}
-          <Link to="/register" className="font-semibold text-rosewood hover:text-brand-dark">
+          <Link to="/register" className="text-ink underline underline-offset-4">
             Register again
           </Link>
         </p>

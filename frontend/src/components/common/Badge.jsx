@@ -1,12 +1,12 @@
 const tones = {
-  brand: 'bg-rosewood-light text-rosewood',
+  brand: 'bg-ink/[0.06] text-ink',
   forest: 'bg-forest-light text-forest',
-  gold: 'bg-gold-light text-[#8a6d16]',
+  gold: 'bg-accent-light text-accent',
   gray: 'bg-ink/[0.06] text-ink-soft',
   green: 'bg-forest-light text-forest',
-  yellow: 'bg-gold-light text-[#8a6d16]',
+  yellow: 'bg-accent-light text-accent',
   red: 'bg-danger-light text-danger',
-  blue: 'bg-forest-light text-forest',
+  blue: 'bg-ink/[0.06] text-ink-soft',
 };
 
 const statusTone = {
@@ -32,7 +32,7 @@ export default function Badge({ children, tone, status, className = '' }) {
   const label = children || (status ? status.replace(/_/g, ' ') : '');
   return (
     <span
-      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize tracking-wide ${tones[t]} ${className}`}
+      className={`inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium capitalize tracking-wide ${tones[t]} ${className}`}
     >
       {label}
     </span>
