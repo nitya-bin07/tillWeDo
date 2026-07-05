@@ -1,12 +1,12 @@
-import { Heart } from 'lucide-react';
-
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white px-6 py-6 text-center text-sm text-gray-500">
-      <p className="flex items-center justify-center gap-1">
-        Made with <Heart size={14} className="text-brand" fill="currentColor" /> by TillWeDo
+    <footer className="border-t border-line px-6 py-8 text-center">
+      <p className="font-display text-sm text-ink-soft">
+        <span className="text-rosewood">Till</span>
+        <span className="text-forest">We</span>
+        <span className="text-ink">Do</span>
       </p>
-      <p className="mt-1 text-xs text-gray-400">
+      <p className="mt-1 text-xs text-ink-soft/70">
         Save Together. Stay Together. © {new Date().getFullYear()}
       </p>
     </footer>

@@ -1,10 +1,12 @@
 const tones = {
-  brand: 'bg-brand-light text-brand-dark',
-  gray: 'bg-gray-100 text-gray-700',
-  green: 'bg-green-100 text-green-700',
-  yellow: 'bg-yellow-100 text-yellow-700',
-  red: 'bg-red-100 text-red-700',
-  blue: 'bg-blue-100 text-blue-700',
+  brand: 'bg-rosewood-light text-rosewood',
+  forest: 'bg-forest-light text-forest',
+  gold: 'bg-gold-light text-[#8a6d16]',
+  gray: 'bg-ink/[0.06] text-ink-soft',
+  green: 'bg-forest-light text-forest',
+  yellow: 'bg-gold-light text-[#8a6d16]',
+  red: 'bg-danger-light text-danger',
+  blue: 'bg-forest-light text-forest',
 };
 
 const statusTone = {
@@ -12,11 +14,11 @@ const statusTone = {
   active: 'green',
   paused: 'yellow',
   forfeited: 'red',
-  paid_out: 'brand',
+  paid_out: 'gold',
   pending: 'yellow',
   accepted: 'green',
   broken_up: 'red',
-  married: 'brand',
+  married: 'gold',
   under_review: 'blue',
   approved: 'green',
   rejected: 'red',
@@ -30,7 +32,7 @@ export default function Badge({ children, tone, status, className = '' }) {
   const label = children || (status ? status.replace(/_/g, ' ') : '');
   return (
     <span
-      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${tones[t]} ${className}`}
+      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize tracking-wide ${tones[t]} ${className}`}
     >
       {label}
     </span>

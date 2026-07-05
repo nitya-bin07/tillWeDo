@@ -2,15 +2,15 @@ import { Loader2 } from 'lucide-react';
 
 export default function Loader({ fullScreen = false, label = 'Loading…', size = 28 }) {
   const spinner = (
-    <div className="flex flex-col items-center gap-2 text-brand">
+    <div className="flex flex-col items-center gap-2 text-rosewood">
       <Loader2 size={size} className="animate-spin" />
-      {label && <span className="text-sm text-gray-500">{label}</span>}
+      {label && <span className="font-sans text-sm text-ink-soft">{label}</span>}
     </div>
   );
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 grid place-items-center bg-white/70 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 grid place-items-center bg-paper/80 backdrop-blur-sm">
         {spinner}
       </div>
     );

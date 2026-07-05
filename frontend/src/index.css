@@ -1,12 +1,37 @@
 @import "tailwindcss";
 
-/* TillWeDo brand tokens — Tailwind v4 reads @theme to generate utilities
-   like bg-brand, text-brand, border-brand-dark, etc. */
+/* ── TillWeDo design system: "The Ledger of Two" ──────────────────────────
+   Two partners' contributions, recorded like ink in a shared passbook,
+   converging into one balance. Warm parchment, not bubblegum pink. */
 @theme {
-  --color-brand: #e0457b;
-  --color-brand-dark: #c63568;
-  --color-brand-light: #fce7ef;
-  --color-ink: #1a1a1a;
+  /* ink & paper */
+  --color-ink: #241c1b;
+  --color-ink-soft: #5c5250;
+  --color-paper: #f7f2e9;
+  --color-paper-raised: #fffdf8;
+  --color-line: #e6dcc6;
+
+  /* the two partners + where they meet */
+  --color-forest: #1f6f54;
+  --color-forest-light: #e5f0ea;
+  --color-rosewood: #a23b54;
+  --color-rosewood-light: #f6e7ea;
+  --color-gold: #c9a227;
+  --color-gold-light: #f6eed2;
+
+  /* brand alias (primary CTA colour = rosewood) */
+  --color-brand: #a23b54;
+  --color-brand-dark: #832f44;
+  --color-brand-light: #f6e7ea;
+
+  /* status */
+  --color-danger: #b3261e;
+  --color-danger-light: #fbe9e7;
+
+  /* type */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "Inter", system-ui, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 html,
@@ -17,7 +42,31 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-  background: #fafafa;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
   color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* tabular figures for money/countdowns wherever .font-mono is used */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* subtle ruled-paper texture for passbook cards */
+.ledger-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    var(--color-line) 28px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
